@@ -1,0 +1,663 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Server Safety Tutorial</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.5; }
+  h1 { margin: 0 0 10px 0; }
+  h2 { margin: 18px 0 10px 0; }
+  h3 { margin: 14px 0 8px 0; }
+  .step { display: none; }
+  .step.active { display: block; }
+  .box { border: 1px solid #ccc; padding: 12px; margin: 12px 0; border-radius: 8px; }
+  .why { background: #fff6cc; padding: 10px 12px; margin-top: 8px; border-radius: 8px; }
+  .check { background: #eefaf1; padding: 10px 12px; margin-top: 8px; border-radius: 8px; }
+  .warn { background: #ffe7e7; padding: 10px 12px; margin-top: 8px; border-radius: 8px; }
+  .code-container { position: relative; margin-top: 10px; }
+  pre { background: #f4f4f4; padding: 10px; overflow-x: auto; border-radius: 8px; margin: 0; }
+  button.copy-btn { position: absolute; top: 8px; right: 8px; padding: 6px 10px; cursor: pointer; }
+  code { background: #f4f4f4; padding: 2px 6px; border-radius: 6px; }
+  ul, ol { margin: 6px 0 0 18px; }
+  .nav { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .nav button { padding: 10px 16px; cursor: pointer; }
+  .nav button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .small { font-size: 0.95em; color: #333; }
+  .pill { display:inline-block; border:1px solid #ccc; padding:6px 10px; border-radius:999px; }
+  .topbar { display:flex; align-items:center; gap: 10px; flex-wrap: wrap; margin: 10px 0 14px 0; }
+</style>
+</head>
+
+<body>
+
+<h1>Minecraft Server Safety Tutorial</h1>
+
+<div class="topbar">
+  <span class="pill" id="progressText">Step 1 of 1</span>
+  <span class="pill small">Goal: backups 08:00–22:00, delete after 48h, whitelist, no ops, rules shown</span>
+</div>
+
+<div id="steps">
+
+  <div class="step active" data-title="Basics, File Explorer">
+    <h2>Step 0, File Explorer basics</h2>
+
+    <div class="box">
+      What is File Explorer<br>
+      File Explorer is the app you use to find files and folders on your computer.
+    </div>
+
+    <h3>How to open File Explorer</h3>
+    <div class="box">
+      Try any of these:
+      <ol>
+        <li>Press Windows key + E</li>
+        <li>Click the folder icon on the taskbar</li>
+        <li>Press the Windows key, type File Explorer, press Enter</li>
+      </ol>
+    </div>
+
+    <h3>Show file extensions</h3>
+    <div class="box">
+      File extensions are the bit after the dot, like <code>.bat</code> or <code>.txt</code>.<br><br>
+      Turn them on:
+      <ol>
+        <li>Open File Explorer</li>
+        <li>Click View</li>
+        <li>Click Show</li>
+        <li>Tick File name extensions</li>
+      </ol>
+    </div>
+
+    <div class="warn">
+      This matters because Windows can hide important info.<br>
+      You want to see <code>backup_world.bat</code> not just <code>backup_world</code>.
+    </div>
+
+    <h3>Common file types</h3>
+    <div class="box">
+      <ul>
+        <li><code>.txt</code> writing</li>
+        <li><code>.html</code> web page</li>
+        <li><code>.bat</code> Windows commands you can run</li>
+        <li><code>.exe</code> program</li>
+        <li><code>.json</code> data lists, Minecraft uses it</li>
+        <li><code>.properties</code> settings, Minecraft uses it</li>
+        <li><code>.jar</code> Java program file, Minecraft server uses it</li>
+      </ul>
+    </div>
+
+    <div class="why">
+      Why we start here<br>
+      If you can open File Explorer and spot file extensions, you can do everything else safely.
+    </div>
+  </div>
+
+  <div class="step" data-title="Notepad or Notepad++">
+    <h2>Step 1, Choose a text editor</h2>
+
+    <div class="box">
+      You need an app to edit text files.
+      You can use:
+      <ul>
+        <li>Notepad, already installed, good enough</li>
+        <li>Notepad++, easier for code and learning</li>
+      </ul>
+    </div>
+
+    <h3>How to open Notepad</h3>
+    <div class="box">
+      <ol>
+        <li>Press the Windows key</li>
+        <li>Type Notepad</li>
+        <li>Press Enter</li>
+      </ol>
+    </div>
+
+    <h3>Notepad++ download</h3>
+    <div class="box">
+      Download from:
+      <div><a href="https://notepad-plus-plus.org/downloads/" target="_blank" rel="noreferrer">https://notepad-plus-plus.org/downloads/</a></div>
+      Install it like any normal program.
+    </div>
+
+    <div class="warn">
+      Saving .bat files correctly in Notepad<br>
+      When you save, choose Save as type: All Files.<br>
+      Otherwise it may save as <code>.bat.txt</code> and will not run.
+    </div>
+  </div>
+
+  <div class="step" data-title="Find your server folder">
+    <h2>Step 2, Find your Minecraft server folder</h2>
+
+    <div class="box">
+      Your server is on the Desktop right now. That is ok.
+      We must find the exact folder path.
+    </div>
+
+    <h3>How to find it</h3>
+    <div class="box">
+      <ol>
+        <li>Open File Explorer</li>
+        <li>Click Desktop on the left</li>
+        <li>Find your server folder, click it once</li>
+      </ol>
+    </div>
+
+    <h3>How to copy the folder path</h3>
+    <div class="box">
+      <ol>
+        <li>At the top of File Explorer, click the address bar</li>
+        <li>It turns into text</li>
+        <li>Press Ctrl + C to copy</li>
+        <li>Paste it into a note using Ctrl + V</li>
+      </ol>
+
+      Example:
+      <pre>C:\Users\YOURNAME\Desktop\MinecraftServer</pre>
+    </div>
+
+    <h3>Find the world folder name</h3>
+    <div class="box">
+      Double click into the server folder.<br>
+      Look for a folder called <code>world</code>.<br>
+      If you see it, the world folder name is <code>world</code>.
+    </div>
+
+    <h3>Find the server jar file name</h3>
+    <div class="box">
+      In the server folder, look for a file ending in <code>.jar</code>.<br>
+      Examples:
+      <ul>
+        <li><code>server.jar</code></li>
+        <li><code>paper-1.xx.x.jar</code></li>
+        <li><code>spigot-1.xx.x.jar</code></li>
+      </ul>
+      Write down its exact name.
+    </div>
+
+    <div class="check">
+      Check<br>
+      You now know:
+      <ul>
+        <li>Server folder path</li>
+        <li>World folder name</li>
+        <li>Jar file name</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step" data-title="Create backup folders">
+    <h2>Step 3, Create the backup and tools folders</h2>
+
+    <div class="box">
+      In File Explorer:
+      <ol>
+        <li>Click This PC on the left</li>
+        <li>Double click Local Disk (C:)</li>
+        <li>Right click in empty space, New, Folder</li>
+        <li>Name it <code>MinecraftBackups</code></li>
+        <li>Make another folder called <code>MinecraftTools</code></li>
+      </ol>
+    </div>
+
+    <div class="why">
+      Why we do this<br>
+      Backups should not live inside the server folder. That reduces mistakes.
+    </div>
+  </div>
+
+  <div class="step" data-title="Rules before join">
+    <h2>Step 4, Show rules before players join (server list message)</h2>
+
+    <div class="box">
+      This message shows in the server list before someone clicks Join.
+      It is called the MOTD.
+    </div>
+
+    <div class="box">
+      Open this file in Notepad or Notepad++:
+      <div style="margin-top:6px;"><code>(your server folder)\server.properties</code></div>
+      Example:
+      <div style="margin-top:6px;"><code>C:\Users\YOURNAME\Desktop\MinecraftServer\server.properties</code></div>
+    </div>
+
+    <div class="box">
+      Find the line that starts with <code>motd=</code> and replace it with this:
+      <div class="code-container">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>motd=Dexter’s Server. Respect builds. No stealing. Open 08:00 to 22:00. Backups active.</pre>
+      </div>
+    </div>
+
+    <div class="why">
+      Why we do this<br>
+      It sets expectations before they join, so there is less arguing later.
+    </div>
+
+    <div class="check">
+      Save the file. Restart the server later so it updates.
+    </div>
+  </div>
+
+  <div class="step" data-title="Rules on join">
+    <h2>Step 5, Show rules when players join (in chat)</h2>
+
+    <div class="box">
+      This message appears in game chat when a player joins.
+      There are two ways:
+      <ul>
+        <li>Easy and best: use a plugin by running a Paper server</li>
+        <li>Harder: vanilla options are limited</li>
+      </ul>
+    </div>
+
+    <h3>Quick check, do you already have Paper</h3>
+    <div class="box">
+      Look at your server jar file name in the server folder:
+      <ul>
+        <li>If it starts with <code>paper-</code> you already have Paper</li>
+        <li>If it is <code>server.jar</code> you are probably running vanilla</li>
+      </ul>
+    </div>
+
+    <h3>Option A, Paper server plus a plugin (recommended)</h3>
+    <div class="box">
+      What this gives you<br>
+      Every time someone joins, they see the rules.
+    </div>
+
+    <div class="box">
+      How plugins work<br>
+      Paper can load extra features called plugins.
+      Plugins live in a folder called <code>plugins</code> inside your server folder.
+    </div>
+
+    <div class="box">
+      Steps to add a join rules message using EssentialsX:
+      <ol>
+        <li>Stop the server</li>
+        <li>Open your server folder</li>
+        <li>If there is no folder called <code>plugins</code>, create it</li>
+        <li>Download the EssentialsX plugin file, it will be a <code>.jar</code></li>
+        <li>Put that <code>.jar</code> into the <code>plugins</code> folder</li>
+        <li>Start the server once, then stop it again</li>
+        <li>A folder called <code>Essentials</code> will appear inside <code>plugins</code></li>
+        <li>Open <code>plugins\Essentials\config.yml</code> in Notepad++</li>
+        <li>Find the <code>motd:</code> section and set it like this</li>
+      </ol>
+    </div>
+
+    <div class="box">
+      Example EssentialsX join rules message (this is inside config.yml):
+      <div class="code-container">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>motd:
+  - "&amp;aWelcome to Dexter’s Server"
+  - "&amp;fRules"
+  - "&amp;71. Do not break other people’s builds"
+  - "&amp;72. Do not take items without asking"
+  - "&amp;73. Keep chat respectful"
+  - "&amp;eServer hours: 08:00 to 22:00"
+  - "&amp;cGriefing means rollback and ban"</pre>
+      </div>
+    </div>
+
+    <div class="check">
+      Check<br>
+      Start the server. Join the server. You should see the rules in chat.
+    </div>
+
+    <div class="warn">
+      Important<br>
+      Plugins require Paper or Spigot. Vanilla servers do not run plugins.
+    </div>
+
+    <h3>Option B, vanilla server (limited)</h3>
+    <div class="box">
+      Vanilla can easily show the server list message (Step 4).
+      Vanilla does not have a simple built in join rules message.
+      You can do it with advanced command setups, but it is more complex than the rest of this tutorial.
+    </div>
+
+    <div class="why">
+      Why plugins are worth it<br>
+      If your main problem is friends joining and pushing rules, Paper plus a join rules plugin makes it simple and reliable.
+    </div>
+  </div>
+
+  <div class="step" data-title="Hourly backups script">
+    <h2>Step 6, Create the hourly backup script</h2>
+
+    <div class="box">
+      Open Notepad or Notepad++.<br><br>
+      Create a new file and save it as:
+      <div style="margin-top:6px;"><code>C:\MinecraftTools\backup_world.bat</code></div>
+      Paste the code below. Then edit ONLY the 2 lines at the top.
+    </div>
+
+    <div class="code-container">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre>@echo off
+setlocal
+
+REM CHANGE THESE TWO LINES
+set SERVER_DIR=C:\Users\YOURNAME\Desktop\MinecraftServer
+set WORLD_DIR=world
+
+set SRC=%SERVER_DIR%\%WORLD_DIR%
+set DEST=C:\MinecraftBackups
+
+for /f %%i in ('powershell -NoProfile -Command "Get-Date -Format yyyy-MM-dd_HH-mm"') do set TS=%%i
+
+if not exist "%DEST%" mkdir "%DEST%"
+
+xcopy "%SRC%" "%DEST%\%WORLD_DIR%_%TS%" /E /I /H /C /Y &gt;nul
+
+echo Backup created: %DEST%\%WORLD_DIR%_%TS%
+endlocal</pre>
+    </div>
+
+    <h3>How to save it correctly in Notepad</h3>
+    <div class="box">
+      <ol>
+        <li>File, Save As</li>
+        <li>Save as type: All Files</li>
+        <li>File name: <code>backup_world.bat</code></li>
+        <li>Save it into: <code>C:\MinecraftTools</code></li>
+      </ol>
+    </div>
+
+    <div class="check">
+      Test it now<br>
+      Open File Explorer, go to <code>C:\MinecraftTools</code> and double click <code>backup_world.bat</code>.<br>
+      Then check <code>C:\MinecraftBackups</code> and you should see a new backup folder.
+    </div>
+
+    <div class="warn">
+      If it fails<br>
+      The usual reasons:
+      <ul>
+        <li>SERVER_DIR is wrong</li>
+        <li>WORLD_DIR is wrong</li>
+        <li>You accidentally saved it as .bat.txt</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step" data-title="Cleanup script">
+    <h2>Step 7, Create cleanup script, deletes backups after 48 hours</h2>
+
+    <div class="box">
+      Create a new file and save it as:
+      <div style="margin-top:6px;"><code>C:\MinecraftTools\cleanup_backups.bat</code></div>
+      Paste this:
+    </div>
+
+    <div class="code-container">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre>@echo off
+setlocal
+set DEST=C:\MinecraftBackups
+
+REM Delete backups older than 2 days (48 hours)
+forfiles /p "%DEST%" /d -2 /c "cmd /c rd /s /q @path"
+
+endlocal</pre>
+    </div>
+
+    <div class="check">
+      Test it now<br>
+      Double click <code>cleanup_backups.bat</code>. It should not delete fresh backups.
+    </div>
+  </div>
+
+  <div class="step" data-title="Open Task Scheduler">
+    <h2>Step 8, Open Task Scheduler</h2>
+
+    <div class="box">
+      Method 1
+      <ol>
+        <li>Press the Windows key</li>
+        <li>Type Task Scheduler</li>
+        <li>Press Enter</li>
+      </ol>
+    </div>
+
+    <div class="box">
+      Method 2
+      <ol>
+        <li>Press Windows key + R</li>
+        <li>Type <code>taskschd.msc</code></li>
+        <li>Press Enter</li>
+      </ol>
+    </div>
+
+    <div class="check">
+      You should see:
+      <ul>
+        <li>Left: Task Scheduler Library</li>
+        <li>Middle: list of tasks</li>
+        <li>Right: Actions panel</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step" data-title="Schedule hourly backups">
+    <h2>Step 9, Schedule hourly backups from 08:00 to 22:00</h2>
+
+    <div class="box">
+      We will create a task that runs the backup script every hour, only during open hours.
+    </div>
+
+    <h3>Create the task</h3>
+    <div class="box">
+      <ol>
+        <li>Click Task Scheduler Library</li>
+        <li>In the right Actions panel, click Create Task</li>
+      </ol>
+    </div>
+
+    <h3>General tab</h3>
+    <div class="box">
+      <ul>
+        <li>Name: Minecraft Hourly Backup</li>
+        <li>Tick Run whether user is logged on or not</li>
+        <li>Tick Run with highest privileges</li>
+      </ul>
+    </div>
+
+    <h3>Triggers tab</h3>
+    <div class="box">
+      <ol>
+        <li>Click New</li>
+        <li>Begin the task: On a schedule</li>
+        <li>Daily</li>
+        <li>Start: 08:00</li>
+        <li>Tick Repeat task every: 1 hour</li>
+        <li>For a duration of: 14 hours</li>
+        <li>Click OK</li>
+      </ol>
+    </div>
+
+    <h3>Actions tab</h3>
+    <div class="box">
+      <ol>
+        <li>Click New</li>
+        <li>Action: Start a program</li>
+        <li>Click Browse</li>
+        <li>Select <code>C:\MinecraftTools\backup_world.bat</code></li>
+        <li>Click OK</li>
+      </ol>
+    </div>
+
+    <h3>Finish and test</h3>
+    <div class="box">
+      Click OK to create the task.<br><br>
+      Test:
+      <ol>
+        <li>Find Minecraft Hourly Backup in the middle list</li>
+        <li>Right click it, click Run</li>
+        <li>Check <code>C:\MinecraftBackups</code> for a new backup folder</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="step" data-title="Schedule cleanup daily">
+    <h2>Step 10, Schedule cleanup daily</h2>
+
+    <div class="box">
+      This deletes backups older than 48 hours so the disk does not fill up.
+    </div>
+
+    <h3>Create the cleanup task</h3>
+    <div class="box">
+      <ol>
+        <li>Click Task Scheduler Library</li>
+        <li>Click Create Task</li>
+      </ol>
+    </div>
+
+    <h3>General tab</h3>
+    <div class="box">
+      <ul>
+        <li>Name: Minecraft Backup Cleanup</li>
+        <li>Tick Run whether user is logged on or not</li>
+        <li>Tick Run with highest privileges</li>
+      </ul>
+    </div>
+
+    <h3>Triggers tab</h3>
+    <div class="box">
+      <ol>
+        <li>Click New</li>
+        <li>On a schedule</li>
+        <li>Daily</li>
+        <li>Start: 07:50</li>
+        <li>OK</li>
+      </ol>
+    </div>
+
+    <h3>Actions tab</h3>
+    <div class="box">
+      <ol>
+        <li>Click New</li>
+        <li>Start a program</li>
+        <li>Browse to <code>C:\MinecraftTools\cleanup_backups.bat</code></li>
+        <li>OK</li>
+      </ol>
+    </div>
+
+    <div class="check">
+      Test it<br>
+      Right click the task, Run. It should run without errors.
+    </div>
+  </div>
+
+  <div class="step" data-title="Whitelist and no ops">
+    <h2>Step 11, Whitelist and no operator powers</h2>
+
+    <h3>No operators</h3>
+    <div class="box">
+      In the server folder, open <code>ops.json</code> and make sure it is:
+      <pre>[]</pre>
+    </div>
+
+    <h3>Whitelist</h3>
+    <div class="box">
+      In <code>server.properties</code> make sure:
+      <pre>white-list=true</pre>
+      When the server is running, add friends in the server console:
+      <div class="code-container">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>whitelist add PlayerName</pre>
+      </div>
+      Remove someone who breaks rules:
+      <div class="code-container">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>whitelist remove PlayerName</pre>
+      </div>
+    </div>
+
+    <div class="why">
+      Backups fix damage. Whitelist stops repeat offenders coming back.
+    </div>
+  </div>
+
+  <div class="step" data-title="How to restore">
+    <h2>Step 12, Restore after griefing</h2>
+
+    <div class="box">
+      Restore steps:
+      <ol>
+        <li>Stop the server</li>
+        <li>Open <code>C:\MinecraftBackups</code></li>
+        <li>Pick a backup folder from before the damage</li>
+        <li>Rename current <code>world</code> to <code>world_broken</code></li>
+        <li>Copy backup folder into the server folder</li>
+        <li>Rename copied backup folder to <code>world</code></li>
+        <li>Start the server</li>
+      </ol>
+    </div>
+
+    <div class="warn">
+      Always stop the server before copying world files.<br>
+      Copying while it runs can corrupt the world.
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button id="backBtn" onclick="prevStep()">Back</button>
+  <button id="nextBtn" onclick="nextStep()">Next</button>
+</div>
+
+<div class="small" style="margin-top:10px;">
+  Tip: The only place you must edit paths is in Step 6, the backup script.
+</div>
+
+<script>
+let current = 0;
+
+function getSteps() {
+  return Array.from(document.querySelectorAll("#steps .step"));
+}
+
+function showStep(n) {
+  const steps = getSteps();
+  steps.forEach(s => s.classList.remove("active"));
+  steps[n].classList.add("active");
+  current = n;
+
+  document.getElementById("progressText").textContent = "Step " + (n + 1) + " of " + steps.length;
+  document.getElementById("backBtn").disabled = (n === 0);
+  document.getElementById("nextBtn").disabled = (n === steps.length - 1);
+}
+
+function nextStep() {
+  const steps = getSteps();
+  if (current < steps.length - 1) showStep(current + 1);
+}
+
+function prevStep() {
+  if (current > 0) showStep(current - 1);
+}
+
+function copyCode(btn) {
+  const pre = btn.parentElement.querySelector("pre");
+  const code = pre.innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    const old = btn.textContent;
+    btn.textContent = "Copied";
+    setTimeout(() => btn.textContent = old, 1200);
+  });
+}
+
+showStep(0);
+</script>
+
+</body>
+</html>
